@@ -1,0 +1,41 @@
+<main>
+  <%- include('../partials/customerSidebar') %>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Food Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="order-items"></tbody>
+  </table>
+
+  const orderItems = /* Fetched order data */; orderItems.forEach(item => {
+  const row = `
+  <tr>
+    <td>${item.foodName}</td>
+    <td>${item.price}</td>
+    <td>${item.quantity}</td>
+    <td>${item.amount}</td>
+    <td>
+      <button class="btn btn-primary edit-item">Edit</button>
+      <button class="btn btn-success pay-item">Pay</button>
+    </td>
+  </tr>
+  `;
+
+  <td>
+    <button class="btn btn-primary edit-item">Edit</button>
+    <button class="btn btn-success pay-item">Pay</button>
+  </td>
+  document.getElementById('order-items').innerHTML += row; });
+  document.querySelectorAll('.edit-item').forEach(button => {
+  button.addEventListener('click', () => { // Handle editing of the
+  corresponding order item }); });
+  document.querySelectorAll('.pay-item').forEach(button => {
+  button.addEventListener('click', () => { // Process payment for the
+  corresponding order item }); });
+</main>

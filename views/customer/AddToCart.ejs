@@ -1,0 +1,51 @@
+<main>
+	<%- include('../partials/customerSidebar') %>
+	
+	<div id="main-wrapper">
+		
+		<div class="bg-white shadow-sm p-3">
+			<span class="me-3" id="sidebar-toggler-btn"><i class="fas fa-bars"></i></span>
+			<h5 class="m-0 color-theme d-inline-block">ADD TO CART</h5>
+		</div>
+		
+		<div class="col col-sm-10 col-12 m-auto my-4" style="max-height: 75%; overflow: auto;">
+			<table class="table table-info table-striped table-hover m-0 bg-white">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Food type</th>
+						<th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+						<th scope="col">Amount</th>
+						<th scope="col">AddToCart</th>
+                        
+					</tr>
+				</thead>
+				<tbody>
+					<% for(let i=0; i<addfoods.length; i++) { %>
+						<tr>
+							<th scope="row"> <%= i+1 %> </th>
+							<td> <%= addfoods [i].foodType %> </td>
+							<td><input type="number" id="quantity" value=<%= addfoods [i].quantity %> min="0" max=<%= addfoods[i].quantity %> onchange="updateAmount(this)"></td>
+                             <td> <%= addfoods [i].price %> </td>
+							<td id="amount-<%= i %>"><%= addfoods [i].price * addfoods [i].quantity %></td>
+							<td><a href="/customer/MyOrders" data-food-id="<%= addfoods[i].id %>"><button type="submit" class="btn color">AddToCart</button></a></td>
+                            
+							
+						</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+	<script>
+    function updateAmount(quantityInput) {
+      const row = quantityInput.closest('tr'); // Get the row containing the quantity input
+      const price = parseFloat(row.querySelector('td:nth-child(4)').textContent); // Get the price from the same row
+      const quantity = parseInt(quantityInput.value);
+      const amount = quantity * price;
+      row.querySelector('td:nth-child(5)').textContent = amount; // Update the Amount cell
+    }
+  </script>
+</main>
