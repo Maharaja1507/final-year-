@@ -25,11 +25,11 @@
 					<% for(let i=0; i<addfoods.length; i++) { %>
 						<tr>
 							<th scope="row"> <%= i+1 %> </th>
-							<td> <%= addfoods [i].foodType %> </td>
-							<td><input type="number" id="quantity" value=<%= addfoods [i].quantity %> min="0" max=<%= addfoods[i].quantity %> onchange="updateAmount(this)"></td>
+							<td > <%= addfoods [i].foodType %> </td>
+							<td  id="quantity-<%= i %>"><input type="number"  value=<%= addfoods [i].quantity %> min="0" max=<%= addfoods[i].quantity %> onchange="updateAmount(this)"></td>
                              <td> <%= addfoods [i].price %> </td>
 							<td id="amount-<%= i %>"><%= addfoods [i].price * addfoods [i].quantity %></td>
-							<td><a href="/customer/MyOrders" data-food-id="<%= addfoods[i].id %>"><button type="submit" class="btn color">AddToCart</button></a></td>
+							<td><a href="/customer/MyOrders"  onclick="addToCart(this)"><button type="submit" class="btn color ">AddToCart</button></a></td>
                             
 							
 						</tr>
@@ -47,5 +47,50 @@
       const amount = quantity * price;
       row.querySelector('td:nth-child(5)').textContent = amount; // Update the Amount cell
     }
-  </script>
+
+
+	 // Client-side (addToCart function)
+function addToCart(element) {
+  const row = element.closest('tr'); // Get the table row containing the button
+
+  // Extract relevant data from the row:
+  const customer = row.querySelector('td:nth-child(1)').textContent; // Assuming _id is in the first cell
+  const foodType = row.querySelector('td:nth-child(2)').textContent;
+  const quantity = row.querySelector('td:nth-child(3)').querySelector('input').value;
+  const price = parseFloat(row.querySelector('td:nth-child(4)').textContent);
+  const amount = quantity * price;
+
+
+
+  // Send data to server for storage in MongoDB:
+  fetch('/customer/AddToCart', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      customer,
+      foodType,
+      quantity,
+      price,
+      amount
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Handle successful response (e.g., redirect to My Orders page)
+    window.location.href = '/customer/MyOrders';
+  })
+  .catch(error => {
+    // Handle errors
+    console.error('Error adding to cart:', error);
+    // Display an error message to the user
+  });
+}
+
+// Attach the addToCart function to each "AddToCart" button:
+const addToCartButtons = document.querySelectorAll('.AddToCart');
+addToCartButtons.forEach(button => button.addEventListener('click', addToCart));
+
+</script>
 </main>

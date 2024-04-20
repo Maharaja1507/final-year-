@@ -1,41 +1,41 @@
 <main>
   <%- include('../partials/customerSidebar') %>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Food Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Amount</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="order-items"></tbody>
-  </table>
 
-  const orderItems = /* Fetched order data */; orderItems.forEach(item => {
-  const row = `
-  <tr>
-    <td>${item.foodName}</td>
-    <td>${item.price}</td>
-    <td>${item.quantity}</td>
-    <td>${item.amount}</td>
-    <td>
-      <button class="btn btn-primary edit-item">Edit</button>
-      <button class="btn btn-success pay-item">Pay</button>
-    </td>
-  </tr>
-  `;
+  <div id="main-wrapper">
+    <div class="bg-white shadow-sm p-3">
+      <span class="me-3" id="sidebar-toggler-btn"
+        ><i class="fas fa-bars"></i
+      ></span>
+      <h5 class="m-0 color-theme d-inline-block">MY ORDERS</h5>
+    </div>
 
-  <td>
-    <button class="btn btn-primary edit-item">Edit</button>
-    <button class="btn btn-success pay-item">Pay</button>
-  </td>
-  document.getElementById('order-items').innerHTML += row; });
-  document.querySelectorAll('.edit-item').forEach(button => {
-  button.addEventListener('click', () => { // Handle editing of the
-  corresponding order item }); });
-  document.querySelectorAll('.pay-item').forEach(button => {
-  button.addEventListener('click', () => { // Process payment for the
-  corresponding order item }); });
+    <div class="m-4">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>_id</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (orderData) { %> <% orderData.forEach(order => { %>
+          <tr>
+            <td><%= order.customer %></td>
+            <td><%= order.foodType %></td>
+            <td><%= order.quantity %></td>
+            <td><%= order.price %></td>
+            <td><%= order.amount %></td>
+          </tr>
+          <% }) %> <% } else { %>
+          <tr>
+            <td colspan="4" class="text-center">No items in cart</td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </main>
